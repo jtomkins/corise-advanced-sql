@@ -1,0 +1,69 @@
+[sqlfluff]
+# One of [raw|jinja|python|placeholder]
+dialect = snowflake
+templater = python
+sql_file_exts = .sql
+rules = L003, L010, L011, L012, L014 ,L016, L019, L030, L031, L033, L051, L054
+
+[sqlfluff:indentation]
+# See https://docs.sqlfluff.com/en/stable/indentation.html
+indented_joins = False
+indented_ctes = False
+indented_using_on = True
+indented_on_contents = True
+template_blocks_indent = True
+
+[sqlfluff:templater]
+unwrap_wrapped_queries = True
+
+[sqlfluff:templater:jinja]
+apply_dbt_builtins = True
+
+[sqlfluff:layout:type:comma]
+spacing_before = touch
+line_position = trailing
+
+[sqlfluff:rules]
+tab_space_size = 4
+max_line_length = 120
+indent_unit = space
+
+[sqlfluff:rules:L010]
+#Inconsistent capitalisation of keywords
+capitalisation_policy = lower
+# Comma separated list of words to ignore for this rule
+ignore_words = None
+
+[sqlfluff:rules:L011]
+# Aliasing preference for tables
+aliasing = explicit
+
+[sqlfluff:rules:L012]
+# Aliasing preference for columns
+aliasing = explicit
+
+[sqlfluff:rules:L014]
+# Unquoted identifiers
+ extended_capitalisation_policy = lower
+# Comma separated list of words to ignore for this rule
+ignore_words = None
+unquoted_identifiers_policy = all
+
+[sqlfluff:rules:L030]
+# Inconsistent capitalisation of function names.
+extended_capitalisation_policy = lower
+# Comma separated list of words to ignore for this rule
+#ignore_words = None
+
+[sqlfluff:rules:L031]
+# Avoid table aliases in from clauses and join conditions.
+# Disabled for some dialects (e.g. bigquery)
+force_enable = True
+
+[sqlfluff:rules:L051]
+# Fully qualify JOIN clause
+fully_qualify_join_types = both
+
+[sqlfluff:rules:L054]
+# GROUP BY/ORDER BY column references
+group_by_and_order_by_style = implicit
