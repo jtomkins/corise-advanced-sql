@@ -88,6 +88,9 @@ vk_customer_cross_rank as (
     cross join vk_supplier_details_with_geo
     order by shipping_distance_in_miles
 ),
+---------------------------------------------------------------------------------
+-- Return customers and supplier records having the closest distance
+---------------------------------------------------------------------------------
 vk_customer_results as (
     select
         customer_id,
