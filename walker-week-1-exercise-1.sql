@@ -5,7 +5,7 @@
 4. clean up resource us cities by eliminating dupes and trailing white spaces
 5. get hung up on what it means for a customer to be eligable and if there is some hidden meaning
 6. join suppliers against resource us cities confirm that all 10 records match
-7. research functions for calculating distance using geo data, reviewed snowflake Geospatial Functions line haversine and st_distance
+7. research functions for calculating distance using geo data, reviewed snowflake Geospatial Functions like haversine and st_distance
 8. arrive at conclusion that data sets should be cross joined to be able to evaluate which location is closest
 9. review/refresh window functions (not discussed in week 1) decideded to use rank for more clarity 
 10. noticed snowflakes newish qualify clause to filter the result of window function, decided not to use becaus newish
