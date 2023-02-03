@@ -32,6 +32,23 @@ Step 2: We have 10 suppliers in the United States. Each customer should be fulfi
 
 Order your results by the customer's last name and first name
 
+### Solution
+#### Steps to solve
+1. inspect data, check customer addresses for any null city or state fields
+2. check resource us cities for dupes
+3. join customers against resource us cities use set operator to review missing records missing
+4. clean up resource us cities by eliminating dupes and trailing white spaces
+5. get hung up on what it means for a customer to be eligable and if there is some hidden meaning
+6. join suppliers against resource us cities confirm that all 10 records match
+7. research functions for calculating distance using geo data, reviewed snowflake Geospatial Functions line haversine and st_distance
+8. arrive at conclusion that data sets should be cross joined to be able to evaluate which location is closest
+9. review/refresh window functions (not discussed in week 1) decideded to use rank for more clarity 
+10. noticed snowflakes newish qualify clause to filter the result of window function, decided not to use becaus newish
+    to snowflake and the Snowflake syntax for QUALIFY is not part of the ANSI standard.
+11. check final record count
+
+#### Query
+[walker-week-1-exercise-1.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-1-excersise-1/walker-week-1-exercise-1.sql)
 
 #### First 10 records from result
 ![image](https://user-images.githubusercontent.com/8420258/216678908-93128d8f-0907-4b29-9ae6-6aafd7e12e8d.png)
