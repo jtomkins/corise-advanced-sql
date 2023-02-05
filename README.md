@@ -52,3 +52,41 @@ Order your results by the customer's last name and first name
 
 #### First 10 records from result
 ![image](https://user-images.githubusercontent.com/8420258/216678908-93128d8f-0907-4b29-9ae6-6aafd7e12e8d.png)
+
+
+##  Week 1 Challenge Exersize 2
+
+Now that we know which customers can order from Virtual Kitchen, we want to launch an email marketing campaign to let these customers know that they can order from our website. If the customer completed a survey about their food interests, then we also want to include up to three of their choices in a personalized email message.
+
+We would like the following information:
+
+* Customer ID
+* Customer email
+* Customer first name
+* Food preference #1
+* Food preference #2
+* Food preference #3
+* One suggested recipe 
+
+Step 1: Create a query to return those customers who are eligible to order and have at least one food preference selected. Include up to three of their food preferences. If the customer has more than three food preferences, then return the first three, sorting in alphabetical order. 
+
+Step 2: Add a column to the query from Step 1 that suggests one recipe that matches food preference #1.  
+
+Order the results by customer email.
+
+### Solution
+#### Steps to solve
+1. re-use logic for eligable customers
+2. If the customer completed a survey about their food interests, 
+    then we also want to include up to three of their choices in a personalized email message,
+  * join result set from eligable customers on customers.customer_survey, resources.recipe_tags
+  * use rank to number customer preferences to be used for logic to include 3 or less choies as well as part of column header
+3. pivot data to transform preference choices from rows to columns
+4. flatten the array tag list to get all tags for each recipe
+5. get suggested recipe to be one recipe where tag_property matches customer preference
+6. get final result by joining customer id from pivoted customer details and preferences with suggested recipe data set 
+
+
+
+#### First 10 records from result
+![image](https://user-images.githubusercontent.com/8420258/216848537-b7ab7e24-2011-49a2-99e6-1dbd65b00166.png)
