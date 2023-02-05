@@ -1,3 +1,16 @@
+/* steps
+
+1. re-use logic for eligable customers
+2. If the customer completed a survey about their food interests, 
+    then we also want to include up to three of their choices in a personalized email message,
+   a. join result set from eligable customers on customers.customer_survey, resources.recipe_tags
+   b. use rank to number customer preferences to be used for logic to include 3 or less choies as well as part of column header
+3. pivot data to transform preference choices from rows to columns
+4. flatten the array tag list to get all tags for each recipe
+5. get suggested recipe to be one recipe where tag_property matches customer preference
+6. get final result by joining customer id from pivoted customer details and preferences with suggested recipe   
+
+*/
 
 
 ---------------------------------------------------------------------------------
