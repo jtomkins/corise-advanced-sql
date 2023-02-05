@@ -86,6 +86,8 @@ Order the results by customer email.
 5. get suggested recipe to be one recipe where tag_property matches customer preference
 6. get final result by joining customer id from pivoted customer details and preferences with suggested recipe data set 
 
+#### Query
+[walker-week-1-exercise-2.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-1-exercises/walker-week-1-exercise-2.sql)
 
 
 #### First 10 records from result
