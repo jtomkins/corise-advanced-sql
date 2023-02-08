@@ -1,65 +1,65 @@
 with 
---Start each CTE on its own line, 
---indented one level more than with (including the first one, and even if there is only one)
-vk_customers as (
-    select 
-        customer_id,
-        first_name || ' ' || last_name as customer_name
-    from vk_data.customers.customer_data
-),
+    --Start each CTE on its own line, 
+    --indented one level more than with (including the first one, and even if there is only one)
+    vk_customers as (
+        select 
+            customer_id,
+            first_name || ' ' || last_name as customer_name
+        from vk_data.customers.customer_data
+    ),
 
---Use a single blank line around CTEs to add visual separation.   
-vk_customer_addresses as (
-    select
-        customer_id,
-        customer_city,
-        customer_state
-    from vk_data.customers.customer_address
-),
+    --Use a single blank line around CTEs to add visual separation.   
+    vk_customer_addresses as (
+        select
+            customer_id,
+            customer_city,
+            customer_state
+        from vk_data.customers.customer_address
+    ),
 
-vk_survey_food_pref_count as (
-    select 
-        customer_id,
-        count(*) as food_pref_count
-    from vk_data.customers.customer_survey
-    where is_active = true
-    group by 1
+    vk_survey_food_pref_count as (
+        select 
+            customer_id,
+            count(*) as food_pref_count
+        from vk_data.customers.customer_survey
+        where is_active = true
+        group by 1
 
-),
+    ),
 
-vk_resources_cities as (
-    select  
-        city_id,
-        city_name,
-        state_abbr,
-        geo_location
-    from vk_data.resources.us_cities
-),
+    vk_resources_cities as (
+        select  
+            city_id,
+            city_name,
+            state_abbr,
+            geo_location
+        from vk_data.resources.us_cities
+    ),
 
-vk_chicago_il_geo as (
-    select  
-        city_id,
-        --case statements https://github.com/brooklyn-data/co/blob/main/sql_style_guide.md#case-statements
-        case 
-            when lower(trim(city_name)) = 'chicago' 
-                and lower(trim(state_abbr)) = 'il' 
-                then geo_location 
-        end as chicago_geo_location 
-    from vk_data.resources.us_cities
-    where  lower(trim(city_name)) = 'chicago' and lower(trim(state_abbr)) = 'il'
-),
+    vk_chicago_il_geo as (
+        select  
+            city_id,
+            --case statements https://github.com/brooklyn-data/co/blob/main/sql_style_guide.md#case-statements
+            case 
+                when lower(trim(city_name)) = 'chicago' 
+                    and lower(trim(state_abbr)) = 'il' 
+                    then geo_location 
+            end as chicago_geo_location 
+        from vk_data.resources.us_cities
+        where  lower(trim(city_name)) = 'chicago' and lower(trim(state_abbr)) = 'il'
+    ),
 
-vk_gary_in_geo as (
-    select  
-        city_id,
-        case 
-            when lower(trim(city_name)) = 'gary' 
-                and lower(trim(state_abbr)) = 'in' 
-                then geo_location 
-        end as gary_geo_location
-    from vk_data.resources.us_cities
-    where lower(trim(city_name)) = 'gary' and lower(trim(state_abbr)) = 'in'
-)
+    vk_gary_in_geo as (
+        select  
+            city_id,
+            case 
+                when lower(trim(city_name)) = 'gary' 
+                    and lower(trim(state_abbr)) = 'in' 
+                    then geo_location 
+            end as gary_geo_location
+        from vk_data.resources.us_cities
+        where lower(trim(city_name)) = 'gary' and lower(trim(state_abbr)) = 'in'
+    )
 
 select 
     --When joining multiple tables, always prefix the column names with the table name/alias.
