@@ -35,25 +35,3 @@ where
     (customer_state = 'CA' and (trim(city_name) ilike '%oakland%' or trim(city_name) ilike '%pleasant hill%'))
     or
     (customer_state = 'TX' and (trim(city_name) ilike '%arlington%') or trim(city_name) ilike '%brownsville%')
-
-
-----formatting -------
-L:   8 | P:  44 | L031 | Avoid aliases in from clauses and join conditions.
-L:   9 | P:   1 | L051 | Join clauses should be fully qualified.
-L:   9 | P:  38 | L011 | Implicit/explicit aliasing of table.
-L:   9 | P:  38 | L031 | Avoid aliases in from clauses and join conditions.
-L:  10 | P:   1 | L051 | Join clauses should be fully qualified.
-L:  10 | P:  39 | L011 | Implicit/explicit aliasing of table.
-L:  10 | P:  39 | L031 | Avoid aliases in from clauses and join conditions.
-L:  11 | P:   1 | L003 | Expected 1 indentation, found 0 [compared to line 10]
-L:  11 | P:   4 | L030 | Function names must be lower case.
-L:  11 | P:  51 | L030 | Function names must be lower case.
-L:  13 | P:   1 | L051 | Join clauses should be fully qualified.
-L:  20 | P:   3 | L011 | Implicit/explicit aliasing of table.
-L:  21 | P:   5 | L003 | Expected 0 indentations, found 1 [compared to line 13]
-L:  22 | P:   5 | L003 | Expected 0 indentations, found 1 [compared to line 20]
-L:  25 | P:  56 | L011 | Implicit/explicit aliasing of table.
-L:  29 | P:   5 | L003 | Expected 2 indentations, found 1 [compared to line 27]
-L:  30 | P:   5 | L003 | Expected 2 indentations, found 1 [compared to line 27]
-L:  30 | P:  53 | L011 | Implicit/explicit aliasing of table.
-L:  33 | P:   5 | L003 | Expected 2 indentations, found 1 [compared to line 32]
