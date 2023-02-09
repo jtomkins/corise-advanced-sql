@@ -1,78 +1,183 @@
-##  Week 2 Exersize 1
+##  Week 2 Project 2 Instructions: Rework a Query to Improve Its Readability
+# Exercise
+Virtual Kitchen has an emergency! 
 
-For our first exercise, we need to determine which customers are eligible to order from Virtual Kitchen, and which distributor will handle the orders that they place. We want to return the following information:
+We shipped several meal kits without including fresh parsley, and our customers are starting to complain. We have identified the impacted cities, and we know that 25 of our customers did not get their parsley. That number might seem small, but Virtual Kitchen is committed to providing every customer with a great experience.
 
-* Customer ID
-* Customer first name
-* Customer last name
-* Customer email
-* Supplier ID
-* Supplier name
-* Shipping distance in kilometers or miles (you choose)
+Our management has decided to provide a different recipe for free (if the customer has other preferences available), or else use grocery stores in the greater Chicago area to send an overnight shipment of fresh parsley to our customers. We have one store in Chicago, IL and one store in Gary, IN both ready to help out with this request.
 
-Step 1: We have 10,000 potential customers who have signed up with Virtual Kitchen. If the customer is able to order from us, then their city/state will be present in our database. Create a query in Snowflake that returns all customers that can place an order with Virtual Kitchen.
+Last night, our on-call developer created a query to identify the impacted customers and their attributes in order to compose an offer to these customers to make things right. But the developer was paged at 2 a.m. when the problem occurred, and she created a fast query so that she could go back to sleep.
 
-Step 2: We have 10 suppliers in the United States. Each customer should be fulfilled by the closest distribution center. Determine which supplier is closest to each customer, and how far the shipment needs to travel to reach the customer. There are a few different ways to complete this step. Use the customer's city and state to join to the us_cities resource table. Do not worry about zip code for this exercise.
+You review her code today and decide to reformat her query so that she can catch up on sleep.
 
-Order your results by the customer's last name and first name
+Here is the query she emailed you. Refactor it to apply a consistent format, and add comments that explain your choices. We are going to review different options in the lecture, so if you are willing to share your refactored query with the class, then let us know!
 
-### Solution
-#### Steps to solve
-1. inspect data, check customer addresses for any null city or state fields
-2. check resource us cities for dupes
-3. join customers against resource us cities use set operator to review missing records missing
-4. clean up resource us cities by eliminating dupes and trailing white spaces
-5. get hung up on what it means for a customer to be eligable and if there is some hidden meaning
-6. join suppliers against resource us cities confirm that all 10 records match
-7. research functions for calculating distance using geo data, reviewed snowflake Geospatial Functions like haversine and st_distance
-8. arrive at conclusion that data sets should be cross joined to be able to evaluate which location is closest
-9. review/refresh window functions (not discussed in week 1) decideded to use rank for more clarity 
-10. noticed snowflakes newish qualify clause to filter the result of window function, decided not to use becaus newish
-    to snowflake and the Snowflake syntax for QUALIFY is not part of the ANSI standard.
-11. check final record count
+<details>
+    <summary>Click to see Legacy Query with notes for sql format rules</summary>
 
-#### Query
-[walker-week-1-exercise-1.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-1-excersise-1/walker-week-1-exercise-1.sql)
+  ```sql
+select 
+    first_name || ' ' || last_name as customer_name,
+    ca.customer_city,
+    ca.customer_state,
+    s.food_pref_count,
+    (st_distance(us.geo_location, chic.geo_location) / 1609)::int as chicago_distance_miles,
+    (st_distance(us.geo_location, gary.geo_location) / 1609)::int as gary_distance_miles
 
-#### First 10 records from result
+-- Avoid aliases in from clauses and join conditions.   
+from vk_data.customers.customer_address as ca
+ 
+--Join clauses should be fully qualified.  
+--Implicit/explicit aliasing of table
+--Avoid aliases in from clauses and join conditions
+join vk_data.customers.customer_data c on ca.customer_id = c.customer_id
+
+--join clauses should be fully qualified
+--Implicit/explicit aliasing of table
+--Avoid aliases in from clauses and join conditions
+left join vk_data.resources.us_cities us 
+
+--Function names must be lower case
+on UPPER(rtrim(ltrim(ca.customer_state))) = upper(TRIM(us.state_abbr))
+    and trim(lower(ca.customer_city)) = trim(lower(us.city_name))
+
+--Join clauses should be fully qualified
+join (
+    select 
+        customer_id,
+        count(*) as food_pref_count
+    from vk_data.customers.customer_survey
+    where is_active = true
+    group by 1
+
+--Implicit/explicit aliasing of table    
+) s on c.customer_id = s.customer_id
+    cross join 
+    ( select 
+        geo_location
+    from vk_data.resources.us_cities 
+
+    --Implicit/explicit aliasing of table
+    where city_name = 'CHICAGO' and state_abbr = 'IL') chic
+cross join 
+    ( select 
+        geo_location
+    from vk_data.resources.us_cities 
+
+    --Implicit/explicit aliasing of table
+    where city_name = 'GARY' and state_abbr = 'IN') gary
+where 
+    ((trim(city_name) ilike '%concord%' or trim(city_name) ilike '%georgetown%' or trim(city_name) ilike '%ashland%')
+    and customer_state = 'KY')
+    or
+    (customer_state = 'CA' and (trim(city_name) ilike '%oakland%' or trim(city_name) ilike '%pleasant hill%'))
+    or
+    (customer_state = 'TX' and (trim(city_name) ilike '%arlington%') or trim(city_name) ilike '%brownsville%')
+
+  ```
+</details>
+
+### Refactored Query
+```sql
+-- refactor using ctes rather than subselect
+-- CTEs will make your queries more straightforward to read/reason about, 
+-- can be referenced multiple times, and are easier to adapt/refactor later
+with 
+    --Start each CTE on its own line, 
+    --indented one level more than with (including the first one, and even if there is only one)
+    --Use a single blank line around CTEs to add visual separation.  
+    vk_customers as (
+        select 
+            customer_id,
+            first_name || ' ' || last_name as customer_name
+        from vk_data.customers.customer_data
+    ),
+
+    -- refactor to include the filter on specific customer states and cities
+    -- needs more analysis with original developer and/or biz since multiple brownsville cities, 
+    -- and not clear intended only for browsnvilee texas
+    vk_customer_addresses as (
+        select
+            customer_id,
+            customer_city,
+            customer_state
+        from vk_data.customers.customer_address
+        where (lower(customer_state) = 'ky' and lower(trim(customer_city)) in ('concord','georgetown','ashland'))
+           or (lower(customer_state) = 'ca' and lower(trim(customer_city)) in ('oakland','pleasant hill'))
+           or (lower(customer_state) = 'tx' and lower(trim(customer_city)) in ('arlington','brownsville'))   
+         
+    ),
+
+    vk_survey_food_pref_count as (
+        select 
+            customer_id,
+            count(*) as food_pref_count
+        from vk_data.customers.customer_survey
+        where is_active = true
+        group by 1
+
+    ),
+
+    vk_us_cities as (
+        select  
+            city_id,
+            city_name,
+            state_abbr,
+            geo_location
+        from vk_data.resources.us_cities
+        
+    ),
+
+    vk_chicago_il_geo as (
+        select  
+            city_id,
+            geo_location as chicago_geo_location 
+        from vk_data.resources.us_cities
+        where  lower(trim(city_name)) = 'chicago' and lower(trim(state_abbr)) = 'il'
+    ),
+
+    vk_gary_in_geo as (
+        select  
+            city_id,
+            geo_location as gary_geo_location
+        from vk_data.resources.us_cities
+        where lower(trim(city_name)) = 'gary' and lower(trim(state_abbr)) = 'in'
+    ),
+
+result as (
+    
+    select 
+    --When joining multiple tables, always prefix the column names with the table name/alias.
+    vk_customers.customer_name,
+    vk_customer_addresses.customer_city,
+    vk_customer_addresses.customer_state,
+    vk_survey_food_pref_count.food_pref_count,
+    (st_distance(vk_us_cities.geo_location, vk_chicago_il_geo.chicago_geo_location) / 1609)::int as chicago_distance_miles,
+    (st_distance(vk_us_cities.geo_location, vk_gary_in_geo.gary_geo_location) / 1609)::int as gary_distance_miles
+from vk_customers
+
+-- Put the initial table being selected from on the same line as from
+inner join vk_customer_addresses on vk_customers.customer_id = vk_customer_addresses.customer_id
+
+-- Put the initial table being selected from on the same line as from
+inner join vk_survey_food_pref_count on vk_customer_addresses.customer_id = vk_survey_food_pref_count.customer_id
+
+-- Put the initial table being selected from on the same line as from
+-- replace ltrim/rtrim with trim
+-- changed upper to lower for consistancy in matching on cases
+inner join vk_us_cities 
+    on lower(trim(vk_us_cities.state_abbr)) = lower(trim(vk_customer_addresses.customer_state))
+        and lower(trim(vk_us_cities.city_name)) = lower(trim(vk_customer_addresses.customer_city)) 
+cross join vk_chicago_il_geo
+cross join vk_gary_in_geo
+)
+
+select *
+from result
+```
+
+#### Link to Query in Repo
+[walker-week-2-refactor.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-2-exercises/walker-week-2-refactor.sql)
+
+#### Result set with brownsville in TX
 ![image](https://user-images.githubusercontent.com/8420258/216678908-93128d8f-0907-4b29-9ae6-6aafd7e12e8d.png)
-
-
-##  Week 1 Challenge Exersize 2
-
-Now that we know which customers can order from Virtual Kitchen, we want to launch an email marketing campaign to let these customers know that they can order from our website. If the customer completed a survey about their food interests, then we also want to include up to three of their choices in a personalized email message.
-
-We would like the following information:
-
-* Customer ID
-* Customer email
-* Customer first name
-* Food preference #1
-* Food preference #2
-* Food preference #3
-* One suggested recipe 
-
-Step 1: Create a query to return those customers who are eligible to order and have at least one food preference selected. Include up to three of their food preferences. If the customer has more than three food preferences, then return the first three, sorting in alphabetical order. 
-
-Step 2: Add a column to the query from Step 1 that suggests one recipe that matches food preference #1.  
-
-Order the results by customer email.
-
-### Solution
-#### Steps to solve
-1. re-use logic for eligable customers
-2. If the customer completed a survey about their food interests, 
-    then we also want to include up to three of their choices in a personalized email message,
-  * join result set from eligable customers on customers.customer_survey, resources.recipe_tags
-  * use rank to number customer preferences to be used for logic to include 3 or less choies as well as part of column header
-3. pivot data to transform preference choices from rows to columns
-4. flatten the array tag list to get all tags for each recipe
-5. get suggested recipe to be one recipe where tag_property matches customer preference
-6. get final result by joining customer id from pivoted customer details and preferences with suggested recipe data set 
-
-#### Query
-[walker-week-1-exercise-2.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-1-exercises/walker-week-1-exercise-2.sql)
-
-
-#### First 10 records from result
-![image](https://user-images.githubusercontent.com/8420258/216848537-b7ab7e24-2011-49a2-99e6-1dbd65b00166.png)

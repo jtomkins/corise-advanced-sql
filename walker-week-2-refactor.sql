@@ -13,7 +13,8 @@ with
     ),
 
     -- refactor to include the filter on specific customer states and cities
-    -- needs more analysis with original developer and/or biz since multiple brownsville cities, and not clear intended only for browsnvilee texas
+    -- needs more analysis with original developer and/or biz since multiple brownsville cities, 
+    -- and not clear intended only for browsnvilee texas
     vk_customer_addresses as (
         select
             customer_id,
