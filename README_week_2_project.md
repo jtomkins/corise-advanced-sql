@@ -180,4 +180,5 @@ from result
 [walker-week-2-refactor.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-2-exercises/walker-week-2-refactor.sql)
 
 #### Result set with brownsville in TX
-![image](https://user-images.githubusercontent.com/8420258/216678908-93128d8f-0907-4b29-9ae6-6aafd7e12e8d.png)
+![image](https://user-images.githubusercontent.com/8420258/217927170-4a7878b3-ecfe-409b-892c-a50b23384634.png)
+
