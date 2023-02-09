@@ -1,6 +1,7 @@
 with 
     --Start each CTE on its own line, 
     --indented one level more than with (including the first one, and even if there is only one)
+    --Use a single blank line around CTEs to add visual separation.  
     vk_customers as (
         select 
             customer_id,
@@ -8,7 +9,6 @@ with
         from vk_data.customers.customer_data
     ),
 
-    --Use a single blank line around CTEs to add visual separation.   
     vk_customer_addresses as (
         select
             customer_id,
