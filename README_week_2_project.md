@@ -180,3 +180,5 @@ from result
 [walker-week-2-refactor.sql](https://github.com/jtomkins/corise-advanced-sql/blob/advanced-sql-week-2-exercises/walker-week-2-refactor.sql)
 
 #### Result set with brownsville in TX returns 19 records instead of 25
+![image](https://user-images.githubusercontent.com/8420258/217928597-fccbc968-4655-49cd-8176-87888d04b592.png)
+
