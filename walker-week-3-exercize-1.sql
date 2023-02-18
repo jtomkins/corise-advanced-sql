@@ -3,6 +3,7 @@
 with 
 --The length of sessions in seconds per day
 vk_sessions as (
+    
 	select 
         session_id, 
         date(event_timestamp) as event_day,
