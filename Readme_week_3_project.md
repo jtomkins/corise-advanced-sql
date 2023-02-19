@@ -98,6 +98,10 @@ left outer join vk_session_searches on vk_sessions.session_id = vk_session_searc
 left outer join vk_top_recipe_views on vk_sessions.event_day = vk_top_recipe_views.event_day
 group by 1,2
 ```
+## Query Results
+![image](https://user-images.githubusercontent.com/8420258/219904907-96a3bb3f-525e-4b7b-b2ab-020d4d96cdd7.png)
+
+
 
 
 Query profile details notes:
