@@ -103,8 +103,9 @@ group by 1,2
 
 
 
+<details>
+    <summary>Click to see Query profile details notes:</summary>
 
-Query profile details notes:
 ```sql
 with vk_total_unique_sessions as (
 select count(*)
@@ -128,4 +129,6 @@ select * from vk_total_unique_sessions
 ```
 
 ![image](https://user-images.githubusercontent.com/8420258/219760854-0f86d785-1db9-4e7f-a4bd-aa9185ff519b.png)
+	
+</details>	
 
