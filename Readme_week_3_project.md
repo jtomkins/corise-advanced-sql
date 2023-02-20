@@ -25,7 +25,7 @@ In addition to your query, please submit a short description of what you determi
 ## Query
 
 Steps:
-1. run query profiler to see the difference when using distinct vs. join
+1. run query profiler to see the difference when using distinct vs. group by
 2. experimented with different queries then came up with this one, to find a balance between how to solve avg searcher before displaying a recipe (could only see it as two seperate queries)
 
 ``` sql
