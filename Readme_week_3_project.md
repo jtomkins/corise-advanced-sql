@@ -25,7 +25,7 @@ In addition to your query, please submit a short description of what you determi
 ## Query
 
 ``` sql
---ALTER SESSION UNSET USE_CACHED_RESULT=FALSE
+--ALTER SESSION UNSET USE_CACHED_RESULT = FALSE
 
 with 
 --The length of sessions in seconds per day
@@ -105,7 +105,12 @@ group by 1,2
 
 <details>
     <summary>Click to see Query profile details notes:</summary>
+final query profile
+	
+![image](https://user-images.githubusercontent.com/8420258/219983406-c72943ac-2df6-47ae-9555-490876890d17.png)
 
+	
+	code snippets
 ```sql
 with vk_total_unique_sessions as (
 select count(*)
