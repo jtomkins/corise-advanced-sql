@@ -104,8 +104,8 @@ group by 1,2
 
 
 <details>
-    <summary>Click to see Query profile details notes:</summary>
-final query profile
+    <summary>Click to see final query profile:</summary>
+
 	
 ![image](https://user-images.githubusercontent.com/8420258/219983406-c72943ac-2df6-47ae-9555-490876890d17.png)
 
