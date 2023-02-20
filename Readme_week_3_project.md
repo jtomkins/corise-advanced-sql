@@ -87,6 +87,7 @@ vk_top_recipe_views as (
 )
 
 --final report query
+-- used left join to include the day that had sessions of 0 seconds and no other metrics
 select 
     vk_sessions.event_day,
     vk_top_recipe_views.recipe_id as most_viewed_recipe,
