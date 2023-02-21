@@ -23,6 +23,7 @@ We want to create a daily report to track:
 In addition to your query, please submit a short description of what you determined from the query profile and how you structured your query to plan for a higher volume of events once the website tra
 
 ## Query
+My query Total Execution Time: 530ms
 
 Steps:
 1. run query profiler to see the difference when using distinct vs. group by
