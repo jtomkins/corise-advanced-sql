@@ -1,26 +1,4 @@
 /*
-
-We need to develop a report to analyze AUTOMOBILE customers who have placed URGENT orders. 
-We expect to see one row per customer, with the following columns:
-    C_CUSTKEY
-    LAST_ORDER_DATE: The date when the last URGENT order was placed
-    ORDER_NUMBERS: A comma-separated list of the order_keys for the three highest dollar urgent orders
-    TOTAL_SPENT: The total dollar amount of the three highest orders
-    PART_1_KEY: The identifier for the part with the highest dollar amount spent, across all urgent orders 
-    PART_1_QUANTITY: The quantity ordered
-    PART_1_TOTAL_SPENT: Total dollars spent on the part 
-    PART_2_KEY: The identifier for the part with the second-highest dollar amount spent, across all urgent orders  
-    PART_2_QUANTITY: The quantity ordered
-    PART_2_TOTAL_SPENT: Total dollars spent on the part 
-    PART_3_KEY: The identifier for the part with the third-highest dollar amount spent, across all urgent orders 
-    PART_3_QUANTITY: The quantity ordered
-    PART_3_TOTAL_SPENT: Total dollars spent on the part 
-
-*/
-
---ALTER SESSION SET USE_CACHED_RESULT = FALSE
-
-/*
  auto customers with urgent orders
  ranking the extended price so can get the top values later
  change the order to rank the highest first = 1 so can pluck the top 3
@@ -46,7 +24,7 @@ with auto_customers_with_urgent_orders as(
 /*
 per requirements consolidate to one record/row per customer
 aggregate on customer key, and use listagg to combine order key values into a comma seperated list
-while aggregating might as well grab the last order date and total sum on parts
+while aggregating might as well grab the last order date and sum on part price
 */
 consolidated_customer_orders as (
 
@@ -112,22 +90,22 @@ part_3 as (
  noticed that the sample report numeric values like total spent and quantity display both positions
  however in snowflake table and in worksheet the zeros are not being displayed 
 */
-
 result as (
+
     select
         consolidated_customer_orders.customer_key as c_custkey,
         consolidated_customer_orders.last_order_date as last_order_date ,
         consolidated_customer_orders.orders as order_numbers,
         consolidated_customer_orders.part_total_price as total_spent,
-        part_1_key,
-        part_1_quantity,
-        part_1_total_spent,
-        part_2_key,
-        part_2_quantity,
-        part_2_total_spent,
-        part_3_key,
-        part_3_quantity,
-        part_3_total_spent
+        part_1.part_1_key,
+        part_1.part_1_quantity,
+        part_1.part_1_total_spent,
+        part_2.part_2_key,
+        part_2.part_2_quantity,
+        part_2.part_2_total_spent,
+        part_3.part_3_key,
+        part_3.part_3_quantity,
+        part_3.part_3_total_spent
     from consolidated_customer_orders
     inner join part_1 on consolidated_customer_orders.customer_key = part_1.customer_key 
     inner join part_2 on part_1.customer_key = part_2.customer_key
