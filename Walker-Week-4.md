@@ -118,32 +118,33 @@ part_3 as (
 ),
 
 /* 
-  include consolidated customer orders with the top 3 parts
+ include consolidated customer orders with top 3 or less orders
+ for those records only have one order default others to 0
  in snowflake numeric values like total spent and quantity are data types with two places after the decimal
  noticed that the sample report numeric values like total spent and quantity display both positions
  however in snowflake table and in worksheet the zeros are not being displayed 
 */
 result as (
 
-    select
-        consolidated_customer_orders.customer_key as c_custkey,
-        consolidated_customer_orders.last_order_date as last_order_date ,
-        consolidated_customer_orders.orders as order_numbers,
-        consolidated_customer_orders.part_total_price as total_spent,
-        part_1.part_1_key,
-        part_1.part_1_quantity,
-        part_1.part_1_total_spent,
-        part_2.part_2_key,
-        part_2.part_2_quantity,
-        part_2.part_2_total_spent,
-        part_3.part_3_key,
-        part_3.part_3_quantity,
-        part_3.part_3_total_spent
-    from consolidated_customer_orders
-    inner join part_1 on consolidated_customer_orders.customer_key = part_1.customer_key 
-    inner join part_2 on part_1.customer_key = part_2.customer_key
-    inner join part_3 on part_2.customer_key = part_3.customer_key
-    order by last_order_date desc
+   select
+    consolidated_customer_orders.customer_key as c_custkey,
+    consolidated_customer_orders.last_order_date as last_order_date ,
+    consolidated_customer_orders.orders as order_numbers,
+    consolidated_customer_orders.part_total_price as total_spent,
+    IFNULL(part_1_key,0)  as part_1_key,
+    IFNULL(part_1_quantity,0) as part_1_quantity,
+    IFNULL(part_1_total_spent,0) as part_1_total_spent,
+    IFNULL(part_2_key, 0)  as part_2_key,
+    IFNULL(part_2_quantity,0) as part_2_quantity,
+    IFNULL(part_2_total_spent,0) as part_2_total_spent,
+    IFNULL(part_3_key,0)  as part_3_key,
+    IFNULL(part_3_quantity,0) as part_3_quantity,
+    IFNULL(part_3_total_spent,0) as part_3_total_spent
+from consolidated_customer_orders
+inner join part_1 on consolidated_customer_orders.customer_key = part_1.customer_key 
+left join part_2 on part_1.customer_key = part_2.customer_key
+left join part_3 on part_2.customer_key = part_3.customer_key
+order by last_order_date desc
 
 )
 
@@ -155,7 +156,9 @@ limit 100
 ### 2. Review the candidate's tech exercise below, and provide a one-paragraph assessment of the SQL quality. Provide examples/suggestions for improvement if you think the candidate could have chosen a better approach.
 
 *Do you agree with the results returned by the query?*
-* I agree with the total record count of 17,305 as well as the column order, and column names
+* I agree with the total record count of 17,305 if the hiring committee confirms that the data sets should should only include those customers who have 3 orders. If it is 3 or less orders the record count is 18,368.
+
+The column order, and column names match the specifications
 
 *Is it easy to understand?*
 
