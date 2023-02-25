@@ -57,7 +57,7 @@ with auto_customers_with_urgent_orders as(
 /*
 per requirements consolidate to one record/row per customer
 aggregate on customer key, and use listagg to combine order key values into a comma seperated list
-while aggregating might as well grab the last order date and total sum on parts
+while aggregating might as well grab the last order date and sum on part price
 */
 consolidated_customer_orders as (
 
@@ -123,8 +123,8 @@ part_3 as (
  noticed that the sample report numeric values like total spent and quantity display both positions
  however in snowflake table and in worksheet the zeros are not being displayed 
 */
-
 result as (
+
     select
         consolidated_customer_orders.customer_key as c_custkey,
         consolidated_customer_orders.last_order_date as last_order_date ,
