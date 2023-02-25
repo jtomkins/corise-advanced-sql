@@ -156,7 +156,7 @@ limit 100
 ### 2. Review the candidate's tech exercise below, and provide a one-paragraph assessment of the SQL quality. Provide examples/suggestions for improvement if you think the candidate could have chosen a better approach.
 
 *Do you agree with the results returned by the query?*
-* I agree with the total record count of 17,305 if the hiring committee confirms that the data sets should should only include those customers who have 3 orders. If it is 3 or less orders the record count is 18,368.
+* I agree with the total record count of 17,305 if the hiring committee confirms that the data set should should only include those customers who have 3 orders. If it is 3 or less orders the record count is 18,368.
 
 The column order, and column names match the specifications
 
