@@ -154,8 +154,15 @@ limit 100
 
 ### 2. Review the candidate's tech exercise below, and provide a one-paragraph assessment of the SQL quality. Provide examples/suggestions for improvement if you think the candidate could have chosen a better approach.
 
-Do you agree with the results returned by the query?
+*Do you agree with the results returned by the query?*
+I agree with the total record count of 17,305 as well as the column order, and column names
 
-Is it easy to understand?
+*Is it easy to understand?*
+areas to improve upon for ease of understanding:
+* add comments
+* fully qualify aliases with the table names instead of using abbreviations
+* inclusion of an additional ctes to reduce the number of self joins against the urgent_orders table
 
-Could the code be more efficient?
+*Could the code be more efficient?*
+* remove the order by clauses from the urgent_orders and top orders CTE
+* remove the join to parts table in urgent_orders CTE, no attributes coming from this table, the attributes interested in are from the lineitem table
