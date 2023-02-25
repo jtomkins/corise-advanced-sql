@@ -1,6 +1,4 @@
-### Project 4 Instructions: Evaluate a Candidate's SQL Tech Exercise
-
-## Project 4 Instructions: Evaluate a Candidate's SQL Tech Exercise
+# Project 4 Instructions: Evaluate a Candidate's SQL Tech Exercise
 Instructions that were provided to the candidate
 For this week's project, we will work with another sample tech exercise from the SNOWFLAKE_SAMPLE_DATA database. We will use the TPCH_SF1 schema to complete the exercise.
 
