@@ -19,16 +19,19 @@ We need to develop a report to analyze AUTOMOBILE customers who have placed URGE
 * PART_3_QUANTITY: The quantity ordered
 * PART_3_TOTAL_SPENT: Total dollars spent on the part 
 
-The output should be sorted by LAST_ORDER_DATE descending.
+The output should be sorted by *LAST_ORDER_DATE* descending.
+
+![image](https://user-images.githubusercontent.com/8420258/221325864-028914d7-2c05-4314-a7a0-b3159eb06d4a.png)
+
 
 There are two parts to this exercise, and you can choose in which order you would like to complete them.  
 
 To submit your work, please create one text file (can live in Google Docs, GitHub, etc.) with the SQL code for Part 1, followed by the answer to Part 2. If you are submitting as a notebook, then you can format Part 2 so that it appears as a comment block.
 
-1. Create a query to provide the report requested. Your query should have a LIMIT 100 when you submit it for review. Remember that you are creating this as a tech exercise for a job evaluation. Your query should be well-formatted, with clear names and comments.
+### 1. Create a query to provide the report requested. Your query should have a LIMIT 100 when you submit it for review. Remember that you are creating this as a tech exercise for a job evaluation. Your query should be well-formatted, with clear names and comments.
 
 
-2. Review the candidate's tech exercise below, and provide a one-paragraph assessment of the SQL quality. Provide examples/suggestions for improvement if you think the candidate could have chosen a better approach.
+### 2. Review the candidate's tech exercise below, and provide a one-paragraph assessment of the SQL quality. Provide examples/suggestions for improvement if you think the candidate could have chosen a better approach.
 
 Do you agree with the results returned by the query?
 
