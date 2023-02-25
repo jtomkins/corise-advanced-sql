@@ -130,15 +130,15 @@ result as (
         consolidated_customer_orders.last_order_date as last_order_date ,
         consolidated_customer_orders.orders as order_numbers,
         consolidated_customer_orders.part_total_price as total_spent,
-        part_1_key,
-        part_1_quantity,
-        part_1_total_spent,
-        part_2_key,
-        part_2_quantity,
-        part_2_total_spent,
-        part_3_key,
-        part_3_quantity,
-        part_3_total_spent
+        part_1.part_1_key,
+        part_1.part_1_quantity,
+        part_1.part_1_total_spent,
+        part_2.part_2_key,
+        part_2.part_2_quantity,
+        part_2.part_2_total_spent,
+        part_3.part_3_key,
+        part_3.part_3_quantity,
+        part_3.part_3_total_spent
     from consolidated_customer_orders
     inner join part_1 on consolidated_customer_orders.customer_key = part_1.customer_key 
     inner join part_2 on part_1.customer_key = part_2.customer_key
