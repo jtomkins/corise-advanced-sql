@@ -65,7 +65,7 @@ consolidated_customer_orders as (
     	customer_key,
         sum(part_price) as part_total_price,
         listagg(order_key, ', ') within group (order by order_key desc) as orders,
-	    max(order_date) as last_order_date
+	max(order_date) as last_order_date
 	from auto_customers_with_urgent_orders
     where top_dollar_rank <= 3
     group by 1
